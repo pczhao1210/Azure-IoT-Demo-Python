@@ -200,8 +200,12 @@ send_telemetry_Thread.start()
 
 # Wait for user to indicate they are done listening for messages
 while True:
-    selection = input("Press Q to quit\n")
-    if selection == "Q" or selection == "q":
+    try:
+        selection = input("Press Q to quit\n")
+        if selection == "Q" or selection == "q":
+            print("Quitting...")
+            break
+    except KeyboardInterrupt:
         print("Quitting...")
         break
 
