@@ -5,7 +5,24 @@ From samples from azure-iot-sdk-python, make a combined script for both device c
 
 ## Simulated Device
 
-Before Start: Replace your DEVICE connection string to conn_str
+Before Start: 
+1. Replace your DEVICE connection string to conn_str
+2. Add following desired properties in the device twin, properties, desired. 
+```
+      "Telemetry_Interval":10,
+      "Send_Data":true,
+```
+And it looks like this:
+```
+     "properties": {
+        "desired": {
+          "Telemetry_Interval": 10,
+          "Send_Data": true,
+          "$metadata": {
+               ......
+          }
+         },
+```
 
 For device client, will generate a message to Azure IoT Hub with random data in this format: </br>
 {"Voltage":random_voltage, "Ampere":random_ampere, "Walt":random_walt} </br>
