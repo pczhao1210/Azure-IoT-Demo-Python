@@ -87,3 +87,16 @@ def print_device_info_short(title, iothub_device):
     #print("status_reason                  = {0}".format(iothub_device.status_reason))
     #print("status_updated_time            = {0}".format(iothub_device.status_updated_time))
     print("")
+
+
+def derive_device_key(device_id, master_symmetric_key):
+    message = device_id.encode("utf-8")
+    #print(message)
+    signing_key = base64.b64decode(master_symmetric_key.encode("utf-8"))
+    #print(signing_key)
+    signed_hmac = hmac.HMAC(signing_key, message, hashlib.sha256)
+    #print(signed_hmac)
+    device_key_encoded = base64.b64encode(signed_hmac.digest())
+    #print(device_key_encoded)
+    #print(device_key_encoded.decode("utf-8"))
+    return device_key_encoded.decode("utf-8")

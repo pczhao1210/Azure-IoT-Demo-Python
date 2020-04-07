@@ -5,13 +5,48 @@ import time
 import json
 import random
 import uuid
+from functions import derive_device_key
 from six.moves import input
-from azure.iot.device import MethodResponse, Message, IoTHubDeviceClient
+from azure.iot.device import MethodResponse, Message, IoTHubDeviceClient, ProvisioningDeviceClient
 
 fw_info = 1.1
 
-conn_str = "{Your-Device-Connection-String}"
+# Connect using Connection String
+conn_str = "{Your IoT Hub Connection String Here}"
+
 device_client = IoTHubDeviceClient.create_from_connection_string(conn_str)
+
+# Connect using Device Provisioning Service (DPS) - Group Registration
+# When provision through personal registration, USE SYMMETRIC KEY DIRECTLY
+#provisioning_host = "global.azure-devices-provisioning.net"
+#id_scope = "{Your DPS Scope ID Here}"
+#registration_id = "{Your TO-BE Assigned Device ID Here}"
+#symmetric_key = "{Your Provisioning Master Key Here}"
+
+#device_key = derive_device_key(registration_id,symmetric_key) #Convert from original symmetric key to device key for further registration
+#provisioning_device_client = ProvisioningDeviceClient.create_from_symmetric_key(
+#    provisioning_host=provisioning_host,
+#    registration_id=registration_id,
+#    id_scope=id_scope,
+#    symmetric_key=device_key
+#)
+#registration_result = provisioning_device_client.register()
+
+#print("The status is :", registration_result.status)
+#print("The device id is: ", registration_result.registration_state.device_id)
+#print("The assigned IoT Hub is: ", registration_result.registration_state.assigned_hub)
+#print("The etag is :", registration_result.registration_state.etag)
+
+#if registration_result.status == "assigned":
+#    print("Provisioning Sucessfully, will send telemetry from the provisioned device")
+#    device_client = IoTHubDeviceClient.create_from_symmetric_key(
+#        symmetric_key=device_key,
+#        hostname=registration_result.registration_state.assigned_hub,
+#        device_id=registration_result.registration_state.device_id,
+#    )
+
+#    device_client.connect()
+
 data = device_client.get_twin()
 telemetry_interval = data["desired"]["Telemetry_Interval"]
 print("Telemetry Interval is Set to: " + str(telemetry_interval))
