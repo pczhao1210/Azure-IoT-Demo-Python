@@ -16,14 +16,14 @@ conn_str = "{Your IoT Hub Connection String Here}"
 
 device_client = IoTHubDeviceClient.create_from_connection_string(conn_str)
 
-# Connect using Device Provisioning Service (DPS) - Group Registration
-# When provision through personal registration, USE SYMMETRIC KEY DIRECTLY
+# Connect using Device Provisioning Service (DPS) - Group Enrollment
+# When provision through Individual Enrollment, USE SYMMETRIC KEY DIRECTLY
 #provisioning_host = "global.azure-devices-provisioning.net"
 #id_scope = "{Your DPS Scope ID Here}"
 #registration_id = "{Your TO-BE Assigned Device ID Here}"
 #symmetric_key = "{Your Provisioning Master Key Here}"
 
-#device_key = derive_device_key(registration_id,symmetric_key) #Convert from original symmetric key to device key for further registration
+#device_key = derive_device_key(registration_id,symmetric_key) #Convert from original symmetric key to device key for further enrollment
 #provisioning_device_client = ProvisioningDeviceClient.create_from_symmetric_key(
 #    provisioning_host=provisioning_host,
 #    registration_id=registration_id,
