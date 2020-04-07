@@ -29,11 +29,12 @@ And it looks like this:
 ```
 
 #### Using Device Provisioning Service to Connect (This can be also used with IoT Central)
-1. Replace your: </br>
+1. Uncomment the DPS part and comment the connection string part
+2. Replace your: </br>
     id_scope: # can be found on your dps frontpage </br>
     registration_id: # define yourself one if using group enrollment or set one uesing individual enrollment </br>
     symmetric_key: # provisioning master key </br>
-2. Edit the Initial Device Twin State like this:
+3. Edit the Initial Device Twin State like this:
 ```
 {
   "tags": {},
@@ -45,6 +46,8 @@ And it looks like this:
   }
 }
 ```
+
+#### Device Client D2C Message
 For device client, will generate a message to Azure IoT Hub with random data in this format: </br>
 {"Voltage":random_voltage, "Ampere":random_ampere, "Walt":random_walt} </br>
 
