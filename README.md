@@ -3,9 +3,9 @@ An Azure IoT Hub Demo Script
 
 From samples from azure-iot-sdk-python, make a combined script for both device client and service client.
 
-# Changelog:
-## 20200407: Adding DPS function while connecting
-## 20201013: Adding new simulator competible with Azure IoT Python SDK 2.3.0, replace some depreciated API with latest one
+## Changelog:
+##### 20200407: Adding DPS function while connecting
+##### 20201013: Adding new simulator competible with Azure IoT Python SDK 2.3.0, replace some depreciated API with latest one
 
 ## Simulated Device
 
