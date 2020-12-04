@@ -5,14 +5,19 @@ From samples from azure-iot-sdk-python, make a combined script for both device c
 
 ## Changelog:
 ##### 20200407: Adding DPS function while connecting
-##### 20201013: Adding new simulator competible with Azure IoT Python SDK 2.3.0, replace some depreciated API with latest one
+##### 20201013: Adding new simulator competible with Azure IoT Python SDK 2.3.0, replace some deprecated API with latest one
 
 ## Simulated Device
 
 Before Start: 
 #### Using Connection String from IoT Hub
-1. Replace your DEVICE connection string to conn_str
-2. Add following desired properties in the device twin, properties, desired. 
+1. Run following command in Command Line Tool, such as Windows Terminal:
+```
+      pip install azure-iot-device
+      pip install azure-iot-hub
+```
+2. Replace your DEVICE connection string to conn_str
+3. Add following desired properties in the device twin, properties, desired. 
 ```
       "Telemetry_Interval":10,
       "Send_Data":true,
