@@ -1,5 +1,6 @@
 # Azure-IoT-Hub-Demo-Python
-An Azure IoT Hub Demo Script
+## A full functional Azure IoT Hub Device Simulator and Controller
+An Azure IoT Hub Demo Script with Python
 
 From samples from azure-iot-sdk-python, make a combined script for both device client and service client.
 
@@ -8,7 +9,7 @@ From samples from azure-iot-sdk-python, make a combined script for both device c
 ##### 20200407: Adding DPS function while connecting
 ##### 20201013: Adding new simulator competible with Azure IoT Python SDK 2.3.0, replace some deprecated API with latest one
 
-## Simulated Device
+## Simulated Device (IoT SDK)
 
 Before Start: 
 #### Using Connection String from IoT Hub
@@ -75,7 +76,7 @@ Some pre-defined method listed below, and after execute them, a response will se
 #### C2D Message
 Also, when receive C2D message, will display on output.
 
-## Simulated Service
+## Simulated Control Service (IoT Hub Controller with Service SDK)
 
 Before Start, replace your IOT HUB connection String to connection_str, and put your device id in device_id.
 
