@@ -4,6 +4,7 @@ An Azure IoT Hub Demo Script
 From samples from azure-iot-sdk-python, make a combined script for both device client and service client.
 
 ## Changelog:
+##### 20210811：Optimize the Device Twin retrival function to allow registered device with no Device Twin run this application with no error
 ##### 20200407: Adding DPS function while connecting
 ##### 20201013: Adding new simulator competible with Azure IoT Python SDK 2.3.0, replace some deprecated API with latest one
 
