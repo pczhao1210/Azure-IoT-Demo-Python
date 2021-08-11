@@ -1,14 +1,16 @@
 import asyncio
-import threading
 import datetime
-import time
 import json
 import random
+import threading
+import time
 import uuid
-from functions import derive_device_key
-from six.moves import input
+
+from azure.iot.device import Message, MethodResponse
 from azure.iot.device.aio import IoTHubDeviceClient, ProvisioningDeviceClient
-from azure.iot.device import MethodResponse, Message
+from six.moves import input
+
+from functions import derive_device_key
 
 fw_info = 1.1
 
@@ -64,13 +66,17 @@ async def main():
     # Read Twin Data from Device_Twin, determine if the program should send data to IoT Hub
     data = await device_client.get_twin()
     global telemetry_interval, send_data
-    telemetry_interval = data["desired"]["Telemetry_Interval"]
-    print("Telemetry Interval is Set to: " + str(telemetry_interval))
-    send_data = data["desired"]["Send_Data"]
-    if send_data == True:
-        print("Send_Data Switch is ON, Start Sending Data...")
+    if "Telemetry_Interval" in data["desired"]:
+        telemetry_interval = data["desired"]["Telemetry_Interval"]
+        print("Telemetry Interval is Set to: " + str(telemetry_interval))
+        send_data = data["desired"]["Send_Data"]
+        if send_data == True:
+            print("Send_Data Switch is ON, Start Sending Data...")
+        else:
+            print("Send_Data Switch is OFF, Please update \"Send_Data\" to \"True\" in device-twin to Start!")
+
     else:
-        print("Send_Data Switch is OFF, Please update \"Send_Data\" to \"True\" in device-twin to Start!")
+        print(("Device Twin not set, use application default value, Telemetry_Inverval = {Telemetry_Inverval}, Send_Data = {Send_Data}").format(Telemetry_Inverval = telemetry_interval, Send_Data = send_data))
 
 
     # define method handlers
