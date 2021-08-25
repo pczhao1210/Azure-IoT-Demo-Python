@@ -22,7 +22,7 @@ conn_string = "{Your IoT Hub Connection String Here}"
 provisioning_host = "global.azure-devices-provisioning.net"
 id_scope = "{Your DPS Scope ID Here}"
 registration_id = "{Your TO-BE Assigned Device ID Here}"
-symmetric_key = "Your Provisioning Master Key Here}"
+symmetric_key = "{Your Provisioning Master Key Here}"
 
 telemetry_interval = None
 send_data = None

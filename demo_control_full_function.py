@@ -5,6 +5,8 @@ from azure.iot.hub.models import CloudToDeviceMethod, QuerySpecification, Twin, 
 
 connection_str = "{Your-Hub-Connection-String}"
 
+device_id = "{Your-Device-ID-Here}"
+
 task_selection = int(input(
     "Please choose your task: \n"
     "1. IoT Hub Operations \n"
@@ -135,8 +137,6 @@ if task_selection == 1:
             print("iothub_registry_manager_sample stopped") 
 
 if task_selection == 2: # Demo Device Operations
-    
-    device_id = "{Your-Device-ID-Here}"
 
     defined_device_option = int(input(
         "Demo Device Operations: \n"

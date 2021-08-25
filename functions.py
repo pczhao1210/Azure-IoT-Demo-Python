@@ -1,4 +1,6 @@
-
+import base64
+import hashlib
+import hmac,hashlib,base64
 
 def print_twin(title, iothub_device):
     print(title + ":")
