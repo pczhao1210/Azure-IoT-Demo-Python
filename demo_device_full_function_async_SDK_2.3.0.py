@@ -24,8 +24,8 @@ id_scope = "{Your DPS Scope ID Here}"
 registration_id = "{Your TO-BE Assigned Device ID Here}"
 symmetric_key = "{Your Provisioning Master Key Here}"
 
-telemetry_interval = None
-send_data = None
+telemetry_interval = 10 # Send telemetry every 10 seconds
+send_data = Ture # Send telemetry by default
 
 
 async def main():
