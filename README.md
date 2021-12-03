@@ -15,8 +15,7 @@ Before Start:
 #### Using Connection String from IoT Hub
 1. Run following command in Command Line Tool, such as Windows Terminal:
 ```
-      pip install azure-iot-device
-      pip install azure-iot-hub
+      pip install -r requirements.txt
 ```
 2. Replace your DEVICE connection string to conn_str
 3. Add following desired properties in the device twin, properties, desired. 
