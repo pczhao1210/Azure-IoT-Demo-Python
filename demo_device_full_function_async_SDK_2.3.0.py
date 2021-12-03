@@ -59,8 +59,7 @@ async def main():
 
     # Connect using Connectiong String
     device_client = IoTHubDeviceClient.create_from_connection_string(conn_string)
-
-    # connect the client
+    
     await device_client.connect()
 
     # Read Twin Data from Device_Twin, determine if the program should send data to IoT Hub
@@ -79,7 +78,7 @@ async def main():
         print(("Device Twin not set, use application default value, Telemetry_Inverval = {Telemetry_Inverval}, Send_Data = {Send_Data}").format(Telemetry_Inverval = telemetry_interval, Send_Data = send_data))
 
 
-    # define method handlers
+    # define method handlers, Get_FW_info/Get_Send_Data_info/FW_Update/Unrecognized
     async def method_request_handler(method_request):
         if method_request.name == "Get_FW_info":
             # set response payload
@@ -155,7 +154,7 @@ async def main():
             # send response
             await device_client.send_method_response(method_response)
 
-    # define behavior for receiving a message
+    # define behavior for receiving a message, direct print out
     async def message_receive_handler(message):
         print(str(datetime.datetime.now()), "Received Message:")
         print(message.data.decode())
@@ -163,7 +162,7 @@ async def main():
             print("With Custom Properties:")
             print(message.custom_properties)
 
-    # Twin Listener
+    # Twin Listener, receive patch when twin changed from cloud side
     async def twin_patch_handler(data):
         global telemetry_interval, send_data
         #data = patch  # blocking call
