@@ -25,7 +25,7 @@ registration_id = "{Your TO-BE Assigned Device ID Here}"
 symmetric_key = "{Your Provisioning Master Key Here}"
 
 telemetry_interval = 10 # Send telemetry every 10 seconds
-send_data = Ture # Send telemetry by default
+send_data = True # Send telemetry by default
 
 
 async def main():
@@ -39,7 +39,7 @@ async def main():
         id_scope=id_scope,
         symmetric_key=device_key
     )
-    registration_result = provisioning_device_client.register()
+    registration_result = await provisioning_device_client.register()
 
     print("The status is :", registration_result.status)
     print("The device id is: ", registration_result.registration_state.device_id)
