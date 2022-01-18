@@ -14,18 +14,22 @@ from functions import derive_device_key
 
 fw_info = 1.1
 
-# Using this for Connecting through IoT Hub Device Connection String
+# Default, Using this for Connecting through IoT Hub Device Connection String
+# 默认模式，当使用连接方式为连接字符串时，需要将设备连接字符串替换至双引号内
 conn_string = "{Your IoT Hub Connection String Here}"
 
 # Using this for Connecting through Device Provisioning Service (DPS) - "Group Enrollment"
-# When provision through "Individual Enrollment", USE SYMMETRIC KEY DIRECTLY
+# 当设备预配服务中添加的注册方式为"组注册"时，需要替换以下字符段
+# When provision through "Individual Enrollment", USE SYMMETRIC KEY DIRECTLY in line 114
+# 当设备预配服务中添加的注册方式为"个人注册"时，需要修改第114行代码
 provisioning_host = "global.azure-devices-provisioning.net"
+provisioning_host_China = "global.azure-devices-provisioning.cn"
 id_scope = "{Your DPS Scope ID Here}"
 registration_id = "{Your TO-BE Assigned Device ID Here}"
 symmetric_key = "{Your Provisioning Master Key Here}"
 
-telemetry_interval = 10 # Send telemetry every 10 seconds
-send_data = True # Send telemetry by default
+telemetry_interval = 10 # Send telemetry every 10 seconds， 每10秒发送数据
+send_data = True # Send telemetry by default， 默认发送数据开关为开
 
 
 async def main():
@@ -34,10 +38,10 @@ async def main():
     # Connect using Device Provisioning Service (DPS)
     device_key = derive_device_key(registration_id,symmetric_key) #Convert from original symmetric key to device key for further enrollment
     provisioning_device_client = ProvisioningDeviceClient.create_from_symmetric_key(
-        provisioning_host=provisioning_host,
+        provisioning_host=provisioning_host, #Using "provisioning_host_China" when provisioning device to Azure China Cloud, 使用Azure中国区域时请替换为"provisioning_host_China"
         registration_id=registration_id,
         id_scope=id_scope,
-        symmetric_key=device_key
+        symmetric_key=device_key # When using Individual Register, replace "device_key" with "symmetric_key", 当使用个人注册时，替换 "device_key" 为 "symmetric_key"
     )
     registration_result = await provisioning_device_client.register()
 
@@ -57,12 +61,13 @@ async def main():
         await device_client.connect()
     '''
 
-    # Connect using Connectiong String
+    # Connect using Connectiong String, 使用连接字符串方式连接
     device_client = IoTHubDeviceClient.create_from_connection_string(conn_string)
     
     await device_client.connect()
 
     # Read Twin Data from Device_Twin, determine if the program should send data to IoT Hub
+    # 从IoT Hub中对应设备的设备孪生-desired twin中读取配置，如配置存在使用配置文件中的配置，如不存在使用默认值
     data = await device_client.get_twin()
     global telemetry_interval, send_data
     if "Telemetry_Interval" in data["desired"]:
@@ -79,6 +84,7 @@ async def main():
 
 
     # define method handlers, Get_FW_info/Get_Send_Data_info/FW_Update/Unrecognized
+    # 配置直接方法，Get_FW_info/Get_Send_Data_info/FW_Update/Unrecognized
     async def method_request_handler(method_request):
         global fw_info
         if method_request.name == "Get_FW_info":
@@ -156,6 +162,7 @@ async def main():
             await device_client.send_method_response(method_response)
 
     # define behavior for receiving a message, direct print out
+    # 配置当收到C2D消息的行为
     async def message_receive_handler(message):
         print(str(datetime.datetime.now()), "Received Message:")
         print(message.data.decode())
@@ -164,6 +171,7 @@ async def main():
             print(message.custom_properties)
 
     # Twin Listener, receive patch when twin changed from cloud side
+    # 监听设备孪生中Twin的改变
     async def twin_patch_handler(data):
         global telemetry_interval, send_data
         #data = patch  # blocking call
@@ -185,6 +193,7 @@ async def main():
         await device_client.patch_twin_reported_properties(reported_properties)
    
     # define send message to iot hub
+    # 配置发送到IoT Hub的消息
     async def send_telemetry(device_client):
         global send_data, telemetry_interval
         telemetry_data_raw = '{{"Voltage": {voltage},"Ampere": {ampere},"Walt": {walt}}}'
@@ -216,6 +225,7 @@ async def main():
                 break
 
     # Set handlers to the client
+    # 设置客户端触发器
     device_client.on_method_request_received = method_request_handler
     device_client.on_message_received = message_receive_handler
     device_client.on_twin_desired_properties_patch_received = twin_patch_handler
@@ -225,13 +235,16 @@ async def main():
     send_telemetry_Thread.start()
 
     # Run the stdin listener in the event loop
+    # 设置程序退出输入监听器
     loop = asyncio.get_event_loop()
     user_finished = loop.run_in_executor(None, stdin_listener)
 
     # Wait for user to indicate they are done listening for method calls
+    # 当监听到输入为Q或者q时终止程序
     await user_finished
 
     # Finally, disconnect
+    # 断开与IoT Hub的连接，如不配置，会在连接超时后断开
     await device_client.disconnect()
 
 
