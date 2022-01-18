@@ -54,7 +54,7 @@ async def main():
             device_id=registration_result.registration_state.device_id,
         )
 
-        device_client.connect()
+        await device_client.connect()
     '''
 
     # Connect using Connectiong String
@@ -80,6 +80,7 @@ async def main():
 
     # define method handlers, Get_FW_info/Get_Send_Data_info/FW_Update/Unrecognized
     async def method_request_handler(method_request):
+        global fw_info
         if method_request.name == "Get_FW_info":
             # set response payload
             payload = {"result": True,
@@ -125,7 +126,7 @@ async def main():
                 await device_client.send_method_response(method_response)
             if fw_info < fw_info_from_method:
                 payload = {"result": True,
-                    "data": ("The Firmware Version Now is " + str(fw_info)+ ", Update Task Now Begin...")}
+                    "data": ("The Firmware Version Now is " + str(fw_info_from_method)+ ", Update Task Now Begin...")}
                 status = 200  # set return status code
                 method_response = MethodResponse.create_from_method_request(
                     method_request, status, payload
