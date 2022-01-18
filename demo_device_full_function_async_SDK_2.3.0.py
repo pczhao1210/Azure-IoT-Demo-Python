@@ -20,8 +20,8 @@ conn_string = "{Your IoT Hub Connection String Here}"
 
 # Using this for Connecting through Device Provisioning Service (DPS) - "Group Enrollment"
 # 当设备预配服务中添加的注册方式为"组注册"时，需要替换以下字符段
-# When provision through "Individual Enrollment", USE SYMMETRIC KEY DIRECTLY in line 114
-# 当设备预配服务中添加的注册方式为"个人注册"时，需要修改第114行代码
+# When provision through "Individual Enrollment", USE SYMMETRIC KEY DIRECTLY in line 44
+# 当设备预配服务中添加的注册方式为"个人注册"时，需要修改第44行代码
 provisioning_host = "global.azure-devices-provisioning.net"
 provisioning_host_China = "global.azure-devices-provisioning.cn"
 id_scope = "{Your DPS Scope ID Here}"
